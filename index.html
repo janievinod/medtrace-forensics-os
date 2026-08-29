@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MEDTRACE – Healthcare × Digital Forensics</title>
+    <!-- Tailwind CSS Play CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            letter-spacing: -0.01em;
+        }
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(0.5deg); }
+        }
+        .animate-float-custom { animation: floatSlow 6s ease-in-out infinite; }
+    </style>
+</head>
+<body class="bg-[#F8FAFC] text-[#0F172A] antialiased selection:bg-[#4F46E5] selection:text-white overflow-x-hidden">
+
+    <div id="app"></div>
+
+    <script>
+        let state = {
+            route: 'splash',
+            email: '',
+            password: '',
+            warningDetails: null,
+            notificationHistory: [
+                { id: 'DR001', title: '🚨 Critical Alert', user: 'DR001', role: 'Doctor', risk: 92, severity: 'Critical', location: 'Chennai', description: 'Accessed 400 patient records at 2:00 AM and initiated bulk export.' },
+                { id: 'NR021', title: '⚠ Insider Threat', user: 'NR021', role: 'Nurse', risk: 84, severity: 'High', location: 'Coimbatore', description: 'Accessed records outside assigned department.' }
+            ]
+        };
+
+        function setState(newState) {
+            state = { ...state, ...newState };
+            render();
+        }
+
+        setTimeout(() => {
+            if (state.route === 'splash') {
+                setState({ route: 'login' });
+            }
+        }, 3000);
+
+        function render() {
+            const app = document.getElementById('app');
+            if (state.route === 'splash') {
+                app.innerHTML = renderSplashScreen();
+            } else if (state.route === 'login') {
+                app.innerHTML = renderLoginPortal();
+            } else if (state.route === 'landing') {
+                app.innerHTML = renderLandingPage();
+            } else if (state.route === 'unauthorized-warning') {
+                app.innerHTML = renderUnauthorizedWarning();
+            } else {
+                app.innerHTML = renderDashboardShell();
+            }
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        }
+
+        function renderSplashScreen() {
+            return `
+                <div class="min-h-screen bg-[#F8FAFC] flex flex-col items-center justify-center text-[#0F172A] px-4 relative overflow-hidden">
+                    <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(79,70,229,0.08),transparent_70%)]"></div>
+                    <div class="relative z-10 flex flex-col items-center text-center space-y-6">
+                        <div class="w-24 h-24 rounded-3xl bg-gradient-to-tr from-[#4F46E5] to-[#06B6D4] flex items-center justify-center shadow-2xl shadow-indigo-500/30 animate-pulse text-white">
+                            <i data-lucide="shield-alert" class="w-12 h-12"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-3xl font-extrabold tracking-tight text-[#0F172A]">MED<span class="text-[#06B6D4]">TRACE</span></h1>
+                            <p class="text-xs uppercase tracking-wider text-slate-500 font-semibold mt-1">Encrypted Healthcare Forensics OS</p>
+                        </div>
+                        <div class="w-64 h-1.5 bg-slate-200 rounded-full overflow-hidden mt-4">
+                            <div class="w-full h-full bg-gradient-to-r from-[#4F46E5] to-[#06B6D4] animate-pulse"></div>
+                        </div>
+                        <p class="text-xs font-medium text-slate-500">Establishing Secure AES-256 Tunnel...</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderLoginPortal() {
+            return `
+                <div class="min-h-screen bg-[#F8FAFC] flex items-center justify-center px-4 relative">
+                    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(79,70,229,0.08),transparent_50%)]"></div>
+                    <div class="max-w-md w-full bg-white border border-slate-200/80 rounded-3xl p-8 shadow-2xl shadow-indigo-500/10 relative z-10 space-y-6">
+                        <div class="text-center space-y-2">
+                            <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#4F46E5] to-[#06B6D4] mx-auto flex items-center justify-center text-white shadow-lg shadow-indigo-500/25">
+                                <i data-lucide="lock" class="w-6 h-6"></i>
+                            </div>
+                            <h2 class="text-xl font-bold text-[#0F172A] tracking-tight">Authorized Personnel Only</h2>
+                            <p class="text-xs text-slate-500 font-medium">Restricted Access • Firebase Auth Secured</p>
+                        </div>
+                        <div class="p-4 bg-indigo-50 border border-indigo-100 rounded-2xl space-y-1">
+                            <p class="text-xs font-bold text-[#4F46E5] uppercase">💡 Dummy Login Credentials:</p>
+                            <p class="text-xs text-slate-700">Email: <strong class="text-[#0F172A]">admin@medtrace.com</strong></p>
+                            <p class="text-xs text-slate-700">Password: <strong class="text-[#0F172A]">secure123</strong></p>
+                        </div>
+                        <form onsubmit="handleLogin(event)" class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">Official Identifier / Email</label>
+                                <input type="email" id="authEmail" required value="admin@medtrace.com" class="w-full bg-[#F8FAFC] border border-slate-200 rounded-xl px-4 py-3 text-sm text-[#0F172A] focus:outline-none focus:border-[#4F46E5] font-medium">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">Secure Passkey / Token</label>
+                                <input type="password" id="authPass" required value="secure123" class="w-full bg-[#F8FAFC] border border-slate-200 rounded-xl px-4 py-3 text-sm text-[#0F172A] focus:outline-none focus:border-[#4F46E5] font-medium">
+                            </div>
+                            <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-[#4F46E5] to-[#06B6D4] text-white font-semibold text-sm shadow-lg shadow-indigo-500/25 hover:opacity-95 transition-all">
+                                Authenticate & Enter Portal
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            `;
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('authEmail').value.trim();
+            const pass = document.getElementById('authPass').value.trim();
+            if (email === 'admin@medtrace.com' && pass === 'secure123') {
+                setState({ route: 'landing' });
+            } else {
+                setState({ route: 'unauthorized-warning', warningDetails: { user: email, time: new Date().toLocaleTimeString() } });
+            }
+        }
+
+        function renderUnauthorizedWarning() {
+            return `
+                <div class="min-h-screen bg-rose-50 flex items-center justify-center px-4 relative overflow-hidden">
+                    <div class="max-w-lg w-full bg-white border-2 border-rose-500 rounded-3xl p-8 shadow-2xl relative z-10 text-center space-y-6">
+                        <div class="w-20 h-20 rounded-full bg-rose-100 border-2 border-rose-500 mx-auto flex items-center justify-center text-rose-600 animate-bounce">
+                            <i data-lucide="shield-alert" class="w-10 h-10"></i>
+                        </div>
+                        <div class="space-y-2">
+                            <span class="px-3 py-1 rounded-full bg-rose-100 text-rose-700 text-xs font-bold uppercase">🚨 Security Breach Detected</span>
+                            <h1 class="text-2xl font-black text-[#0F172A]">Unauthorized Access Attempt Logged</h1>
+                            <p class="text-xs text-slate-600 font-medium">Your credentials lack higher-authority privileges. Telemetry has been dispatched to the Lead Forensic Officer.</p>
+                        </div>
+                        <button onclick="setState({route: 'login'})" class="w-full py-3 rounded-xl bg-slate-900 text-white font-semibold text-xs tracking-wider uppercase">Return to Secure Gateway</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderLandingPage() {
+            return `
+                <div class="min-h-screen bg-[#F8FAFC] text-[#0F172A] relative overflow-hidden flex flex-col justify-between">
+                    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+                        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+                            <div class="flex items-center space-x-3 cursor-pointer" onclick="setState({route: 'landing'})">
+                                <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-[#4F46E5] to-[#06B6D4] text-white flex items-center justify-center shadow-lg">
+                                    <i data-lucide="shield" class="w-6 h-6"></i>
+                                </div>
+                                <span class="text-xl font-black tracking-tight">MED<span class="text-[#4F46E5]">TRACE</span></span>
+                            </div>
+                            <div class="hidden md:flex items-center space-x-8 text-sm font-semibold text-slate-600">
+                                <span class="hover:text-[#4F46E5] cursor-pointer" onclick="setState({route: 'dashboard'})">Overview</span>
+                                <span class="hover:text-[#4F46E5] cursor-pointer" onclick="setState({route: 'alerts'})">Telemetry</span>
+                                <span class="hover:text-[#4F46E5] cursor-pointer" onclick="setState({route: 'graph'})">Graph Map</span>
+                                <span class="hover:text-[#4F46E5] cursor-pointer" onclick="setState({route: 'reports'})">AI Reports</span>
+                            </div>
+                            <div class="flex items-center space-x-4">
+                                <button onclick="setState({route: 'dashboard'})" class="px-5 py-2.5 rounded-xl bg-[#4F46E5] hover:bg-[#4338ca] text-white font-semibold text-xs tracking-wide shadow-lg shadow-indigo-500/25 transition-all">
+                                    🚀 Launch Platform
+                                </button>
+                                <button onclick="setState({route: 'login'})" class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-all">
+                                    🔒 Lock
+                                </button>
+                            </div>
+                        </div>
+                    </nav>
+
+                    <section class="relative pt-36 pb-24 md:pt-44 md:pb-32 px-6 max-w-7xl mx-auto flex-1 grid lg:grid-cols-2 gap-12 items-center w-full">
+                        <div class="space-y-6 z-10 text-center lg:text-left">
+                            <div class="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-indigo-50 border border-indigo-100 text-[#4F46E5] text-xs font-semibold shadow-sm">
+                                <i data-lucide="zap" class="w-4 h-4"></i>
+                                <span>Healthcare × Digital Forensics OS</span>
+                            </div>
+                            <h1 class="text-4xl sm:text-6xl font-black tracking-tight leading-tight">
+                                AI-Powered Healthcare <br/><span class="bg-gradient-to-r from-[#4F46E5] to-[#06B6D4] bg-clip-text text-transparent">Digital Forensics Platform</span>
+                            </h1>
+                            <p class="text-lg text-slate-600 leading-relaxed max-w-xl mx-auto lg:mx-0 font-medium">
+                                Detect unauthorized access, insider threats, abnormal EHR activity, and potential data breaches using intelligent forensic graph tracing.
+                            </p>
+                            <div class="pt-4 flex justify-center lg:justify-start">
+                                <button onclick="setState({route: 'dashboard'})" class="px-8 py-4 rounded-xl bg-[#4F46E5] text-white font-semibold shadow-xl shadow-indigo-500/30">🚀 Launch Platform</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Restored Shield with Floating Cards -->
+                        <div class="relative w-full flex items-center justify-center py-10">
+                            <div class="relative flex items-center justify-center animate-float-custom">
+                                <div class="absolute w-72 h-72 bg-gradient-to-tr from-indigo-500/20 to-cyan-400/20 blur-3xl rounded-full pointer-events-none"></div>
+                                
+                                <svg viewBox="0 0 240 280" class="w-72 sm:w-96 h-auto drop-shadow-2xl relative z-10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M120 10C120 10 200 25 220 50C240 100 230 200 120 270C10 200 0 100 20 50C40 25 120 10 120 10Z" fill="url(#shieldGrad)" stroke="url(#shieldStroke)" stroke-width="4"/>
+                                    <path d="M105 85H135V115H165V145H135V175H105V145H75V115H105V85Z" fill="white" fill-opacity="0.95"/>
+                                    <circle cx="120" cy="130" r="45" fill="#4F46E5" fill-opacity="0.2"/>
+                                    <path d="M100 130L112 142L140 114" stroke="#06B6D4" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <defs>
+                                        <linearGradient id="shieldGrad" x1="20" y1="20" x2="220" y2="260" gradientUnits="userSpaceOnUse"><stop stop-color="#4F46E5"/><stop offset="1" stop-color="#06B6D4"/></linearGradient>
+                                        <linearGradient id="shieldStroke" x1="20" y1="20" x2="220" y2="260" gradientUnits="userSpaceOnUse"><stop stop-color="#818CF8"/><stop offset="1" stop-color="#22D3EE"/></linearGradient>
+                                    </defs>
+                                </svg>
+
+                                <!-- Restored Floating Threat Card -->
+                                <div class="absolute -top-4 -left-2 sm:-left-6 bg-white/95 backdrop-blur-md p-4 rounded-2xl border border-slate-200 shadow-2xl flex items-center space-x-3 z-20 animate-bounce">
+                                    <div class="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center"><i data-lucide="alert-triangle" class="w-5 h-5"></i></div>
+                                    <div>
+                                        <p class="text-[10px] font-semibold text-slate-400 uppercase">Threat Level</p>
+                                        <p class="text-sm font-black text-rose-600 font-mono">Critical (92%)</p>
+                                    </div>
+                                </div>
+
+                                <!-- Restored Floating Database Records Card -->
+                                <div class="absolute -bottom-4 -right-2 sm:-right-6 bg-white/95 backdrop-blur-md p-4 rounded-2xl border border-slate-200 shadow-2xl flex items-center space-x-3 z-20">
+                                    <div class="w-10 h-10 rounded-xl bg-indigo-50 text-[#4F46E5] flex items-center justify-center"><i data-lucide="database" class="w-5 h-5"></i></div>
+                                    <div>
+                                        <p class="text-[10px] font-semibold text-slate-400 uppercase">EHR Records</p>
+                                        <p class="text-sm font-black text-[#0F172A] font-mono">400 Indexed</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            `;
+        }
+
+        function renderDashboardShell() {
+            return `
+                <div class="min-h-screen bg-[#F8FAFC] text-[#0F172A] flex antialiased">
+                    <aside class="fixed inset-y-0 left-0 w-64 bg-white border-r border-slate-200 flex flex-col z-40 shadow-sm">
+                        <div class="h-20 flex items-center px-6 border-b border-slate-100">
+                            <span class="text-xl font-black">MED<span class="text-[#4F46E5]">TRACE</span></span>
+                        </div>
+                        <div class="flex-1 px-4 py-6 space-y-1.5 font-semibold text-sm">
+                            <button onclick="setState({route: 'dashboard'})" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl ${state.route === 'dashboard' ? 'bg-[#4F46E5] text-white' : 'text-slate-600 hover:bg-slate-100'}"><i data-lucide="bar-chart-2" class="w-5 h-5"></i><span>Dashboard</span></button>
+                            <button onclick="setState({route: 'alerts'})" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl ${state.route === 'alerts' ? 'bg-[#4F46E5] text-white' : 'text-slate-600 hover:bg-slate-100'}"><i data-lucide="alert-triangle" class="w-5 h-5"></i><span>Alerts & Telemetry</span></button>
+                            <button onclick="setState({route: 'timeline-page'})" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl ${state.route === 'timeline-page' ? 'bg-[#4F46E5] text-white' : 'text-slate-600 hover:bg-slate-100'}"><i data-lucide="clock" class="w-5 h-5"></i><span>Investigation Timeline</span></button>
+                            <button onclick="setState({route: 'graph'})" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl ${state.route === 'graph' ? 'bg-[#4F46E5] text-white' : 'text-slate-600 hover:bg-slate-100'}"><i data-lucide="network" class="w-5 h-5"></i><span>Graph Analysis</span></button>
+                            <button onclick="setState({route: 'reports'})" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl ${state.route === 'reports' ? 'bg-[#4F46E5] text-white' : 'text-slate-600 hover:bg-slate-100'}"><i data-lucide="file-text" class="w-5 h-5"></i><span>AI Reports</span></button>
+                            <button onclick="setState({route: 'landing'})" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-100"><i data-lucide="home" class="w-5 h-5"></i><span>Landing Page</span></button>
+                        </div>
+                    </aside>
+                    <div class="flex-1 pl-64 flex flex-col">
+                        <header class="h-20 bg-white border-b border-slate-200 px-8 flex items-center justify-between shadow-sm">
+                            <h2 class="text-lg font-bold tracking-wide text-slate-700 capitalize">${state.route} Module</h2>
+                            <button onclick="setState({route: 'login'})" class="text-sm font-semibold text-rose-600 hover:underline">Secure Logout</button>
+                        </header>
+                        <main class="p-8">${renderRouteContent()}</main>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderRouteContent() {
+            if (state.route === 'dashboard') {
+                return `
+                    <div class="space-y-6">
+                        <h1 class="text-2xl font-black">Executive Security Overview</h1>
+                        <div class="grid grid-cols-4 gap-6">
+                            <div class="p-6 bg-white border rounded-2xl shadow-sm"><span class="text-xs font-semibold text-slate-500 uppercase">Critical Alerts</span><div class="text-3xl font-black mt-1">12</div></div>
+                            <div class="p-6 bg-white border rounded-2xl shadow-sm"><span class="text-xs font-semibold text-slate-500 uppercase">High Risk Users</span><div class="text-3xl font-black mt-1">7</div></div>
+                            <div class="p-6 bg-white border rounded-2xl shadow-sm"><span class="text-xs font-semibold text-slate-500 uppercase">Investigations</span><div class="text-3xl font-black mt-1">104</div></div>
+                            <div class="p-6 bg-white border rounded-2xl shadow-sm"><span class="text-xs font-semibold text-slate-500 uppercase">Accuracy</span><div class="text-3xl font-black mt-1 text-emerald-600">94%</div></div>
+                        </div>
+                    </div>
+                `;
+            } else if (state.route === 'alerts') {
+                return `
+                    <div class="space-y-6">
+                        <h1 class="text-2xl font-black">Security Alerts & Telemetry</h1>
+                        <div class="bg-white border rounded-3xl p-6 shadow-sm">
+                            <table class="w-full text-left text-sm">
+                                <thead><tr class="border-b text-xs font-semibold text-slate-400 uppercase"><th class="pb-3">SCENARIO</th><th class="pb-3">USER ID</th><th class="pb-3">RISK</th><th class="pb-3">LOCATION</th><th class="pb-3">ACTION</th></tr></thead>
+                                <tbody class="divide-y font-medium">
+                                    <tr><td class="py-4 font-bold">🚨 Bulk Data Export</td><td class="py-4 text-[#4F46E5]">DR001</td><td class="py-4 text-rose-600 font-bold">92</td><td class="py-4">Chennai</td><td class="py-4"><button onclick="setState({route: 'timeline-page'})" class="px-3 py-1 rounded-xl bg-indigo-50 text-[#4F46E5] text-xs font-bold">Inspect →</button></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+            } else if (state.route === 'timeline-page') {
+                return `
+                    <div class="space-y-6">
+                        <h1 class="text-2xl font-black">Investigation Timeline: Case #MT-2026-001</h1>
+                        <div class="bg-white border rounded-3xl p-8 space-y-4 shadow-sm">
+                            <div class="flex items-start space-x-4 p-4 rounded-2xl bg-slate-50 border"><div class="font-bold text-xs text-slate-600">02:00 AM</div><div><h4 class="text-xs font-bold">User Login Detected</h4><p class="text-xs text-slate-500 font-medium">Successful SSO login from Node-Clinic-884.</p></div></div>
+                            <div class="flex items-start space-x-4 p-4 rounded-2xl bg-slate-50 border"><div class="font-bold text-xs text-slate-600">02:15 AM</div><div><h4 class="text-xs font-bold">Bulk Export Initiated</h4><p class="text-xs text-slate-500 font-medium">API Payload Download (142MB) across unassigned patient databases.</p></div></div>
+                        </div>
+                    </div>
+                `;
+            } else if (state.route === 'graph') {
+                return `
+                    <div class="bg-white border rounded-3xl p-16 text-center space-y-4 shadow-sm">
+                        <i data-lucide="network" class="w-16 h-16 text-[#4F46E5] mx-auto animate-pulse"></i>
+                        <h3 class="text-xl font-bold">Neo4j Cluster Entity Relationship Map</h3>
+                        <p class="text-slate-500 text-sm max-w-md mx-auto font-medium">Visualizing real-time connectivity between clinical accounts, database nodes, and external IP endpoints.</p>
+                    </div>
+                `;
+            } else {
+                return `
+                    <div class="bg-white border rounded-3xl p-8 space-y-4 shadow-sm">
+                        <h3 class="text-lg font-bold">Google Gemini AI Forensic Report</h3>
+                        <p class="text-sm text-slate-600 leading-relaxed font-medium">Telemetry analysis confirms user #DR001 executed unauthorized bulk exfiltration outside operating hours. Cryptographic hash validations verify 400 patient records were breached.</p>
+                    </div>
+                `;
+            }
+        }
+
+        window.onload = render;
+    </script>
+</body>
+</html>

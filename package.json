@@ -1,0 +1,19 @@
+{
+  "name": "medtrace-forensics-os",
+  "version": "1.0.0",
+  "description": "AI-Powered Healthcare Digital Forensics Platform",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx serve",
+    "start": "npx serve"
+  },
+  "keywords": [
+    "healthcare",
+    "digital-forensics",
+    "security",
+    "ai",
+    "tailwind"
+  ],
+  "author": "Lumi Nex Team",
+  "license": "ISC"
+}
