@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MEDTRACE – Healthcare × Digital Forensics</title>
-    <!-- Tailwind CSS Play CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="styles.css">
     <style>
@@ -196,7 +194,6 @@
                             </div>
                         </div>
                         
-                        <!-- Restored Shield with Floating Cards -->
                         <div class="relative w-full flex items-center justify-center py-10">
                             <div class="relative flex items-center justify-center animate-float-custom">
                                 <div class="absolute w-72 h-72 bg-gradient-to-tr from-indigo-500/20 to-cyan-400/20 blur-3xl rounded-full pointer-events-none"></div>
@@ -212,7 +209,6 @@
                                     </defs>
                                 </svg>
 
-                                <!-- Restored Floating Threat Card -->
                                 <div class="absolute -top-4 -left-2 sm:-left-6 bg-white/95 backdrop-blur-md p-4 rounded-2xl border border-slate-200 shadow-2xl flex items-center space-x-3 z-20 animate-bounce">
                                     <div class="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center"><i data-lucide="alert-triangle" class="w-5 h-5"></i></div>
                                     <div>
@@ -221,7 +217,6 @@
                                     </div>
                                 </div>
 
-                                <!-- Restored Floating Database Records Card -->
                                 <div class="absolute -bottom-4 -right-2 sm:-right-6 bg-white/95 backdrop-blur-md p-4 rounded-2xl border border-slate-200 shadow-2xl flex items-center space-x-3 z-20">
                                     <div class="w-10 h-10 rounded-xl bg-indigo-50 text-[#4F46E5] flex items-center justify-center"><i data-lucide="database" class="w-5 h-5"></i></div>
                                     <div>
@@ -266,27 +261,160 @@
         function renderRouteContent() {
             if (state.route === 'dashboard') {
                 return `
-                    <div class="space-y-6">
-                        <h1 class="text-2xl font-black">Executive Security Overview</h1>
-                        <div class="grid grid-cols-4 gap-6">
-                            <div class="p-6 bg-white border rounded-2xl shadow-sm"><span class="text-xs font-semibold text-slate-500 uppercase">Critical Alerts</span><div class="text-3xl font-black mt-1">12</div></div>
-                            <div class="p-6 bg-white border rounded-2xl shadow-sm"><span class="text-xs font-semibold text-slate-500 uppercase">High Risk Users</span><div class="text-3xl font-black mt-1">7</div></div>
-                            <div class="p-6 bg-white border rounded-2xl shadow-sm"><span class="text-xs font-semibold text-slate-500 uppercase">Investigations</span><div class="text-3xl font-black mt-1">104</div></div>
-                            <div class="p-6 bg-white border rounded-2xl shadow-sm"><span class="text-xs font-semibold text-slate-500 uppercase">Accuracy</span><div class="text-3xl font-black mt-1 text-emerald-600">94%</div></div>
+                    <div class="space-y-8 animate-fade-in max-w-7xl mx-auto">
+                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                            <div>
+                                <h1 class="text-2xl font-black text-[#0F172A]">Executive Security Command</h1>
+                                <p class="text-xs text-slate-500 font-medium mt-0.5">Real-time EHR anomaly detection, insider threat telemetry, and automated forensic audit trails.</p>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <button onclick="alert('Running deep isolation forest cluster scan across hospital nodes... All systems nominal.')" class="px-4 py-2.5 rounded-xl bg-[#4F46E5] text-white font-semibold text-xs shadow-lg shadow-indigo-500/20 hover:bg-[#4338ca] transition-all flex items-center space-x-2">
+                                    <i data-lucide="shield-check" class="w-4 h-4"></i>
+                                    <span>Run Deep Predictive Scan</span>
+                                </button>
+                                <button onclick="setState({route: 'alerts'})" class="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 font-semibold text-xs hover:bg-slate-50 transition-all">
+                                    View All Telemetry →
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Enhanced Metrics Grid -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                            <div class="p-6 bg-white border border-slate-200/80 rounded-3xl shadow-sm hover:shadow-md transition-shadow">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Critical Alerts</span>
+                                    <span class="w-8 h-8 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center"><i data-lucide="alert-triangle" class="w-4 h-4"></i></span>
+                                </div>
+                                <div class="text-3xl font-black text-[#0F172A] mt-3">12</div>
+                                <p class="text-[11px] text-rose-600 font-semibold mt-1">+3 since last shift</p>
+                            </div>
+                            <div class="p-6 bg-white border border-slate-200/80 rounded-3xl shadow-sm hover:shadow-md transition-shadow">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">High Risk Users</span>
+                                    <span class="w-8 h-8 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center"><i data-lucide="user-x" class="w-4 h-4"></i></span>
+                                </div>
+                                <div class="text-3xl font-black text-[#0F172A] mt-3">7</div>
+                                <p class="text-[11px] text-slate-500 font-medium mt-1">Under strict behavioral tracking</p>
+                            </div>
+                            <div class="p-6 bg-white border border-slate-200/80 rounded-3xl shadow-sm hover:shadow-md transition-shadow">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Active Investigations</span>
+                                    <span class="w-8 h-8 rounded-xl bg-indigo-50 text-[#4F46E5] flex items-center justify-center"><i data-lucide="folder-search" class="w-4 h-4"></i></span>
+                                </div>
+                                <div class="text-3xl font-black text-[#0F172A] mt-3">104</div>
+                                <p class="text-[11px] text-emerald-600 font-semibold mt-1">98 closed successfully</p>
+                            </div>
+                            <div class="p-6 bg-white border border-slate-200/80 rounded-3xl shadow-sm hover:shadow-md transition-shadow">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Prediction Accuracy</span>
+                                    <span class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center"><i data-lucide="activity" class="w-4 h-4"></i></span>
+                                </div>
+                                <div class="text-3xl font-black text-emerald-600 mt-3">94%</div>
+                                <p class="text-[11px] text-slate-500 font-medium mt-1">Isolation Forest v2.4</p>
+                            </div>
+                        </div>
+
+                        <!-- Predictive Threat Insights Banner -->
+                        <div class="p-6 bg-indigo-50 border border-indigo-100 rounded-3xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                            <div class="space-y-1">
+                                <div class="flex items-center space-x-2 text-[#4F46E5] text-xs font-bold uppercase tracking-wider font-mono">
+                                    <i data-lucide="sparkles" class="w-4 h-4"></i>
+                                    <span>AI Predictive Insight</span>
+                                </div>
+                                <p class="text-sm font-semibold text-[#0F172A]">High probability of off-hours database access spikes detected in the Cardiology subnet.</p>
+                            </div>
+                            <button onclick="setState({route: 'reports'})" class="px-4 py-2 rounded-xl bg-[#4F46E5] text-white font-semibold text-xs shadow-sm hover:bg-[#4338ca] transition-all whitespace-nowrap">
+                                View Gemini Brief →
+                            </button>
+                        </div>
+
+                        <!-- Recent High-Priority Incidents Table -->
+                        <div class="bg-white border border-slate-200/80 rounded-3xl p-6 shadow-sm space-y-4">
+                            <div class="flex items-center justify-between">
+                                <h3 class="text-base font-bold text-[#0F172A]">Recent High-Priority Incidents</h3>
+                                <button onclick="setState({route: 'alerts'})" class="text-xs font-semibold text-[#4F46E5] hover:underline">View All Telemetry →</button>
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left text-sm">
+                                    <thead>
+                                        <tr class="border-b border-slate-100 text-xs font-semibold text-slate-400 uppercase">
+                                            <th class="pb-3">Scenario</th>
+                                            <th class="pb-3">User ID</th>
+                                            <th class="pb-3">Risk Score</th>
+                                            <th class="pb-3">Location</th>
+                                            <th class="pb-3">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-100 font-medium">
+                                        <tr class="hover:bg-slate-50 transition-colors">
+                                            <td class="py-4 font-bold text-[#0F172A]">🚨 Bulk Data Export (400 Records)</td>
+                                            <td class="py-4 text-[#4F46E5] font-mono font-bold">DR001</td>
+                                            <td class="py-4 text-rose-600 font-mono font-bold">92%</td>
+                                            <td class="py-4 text-slate-600">Chennai Clinic Node</td>
+                                            <td class="py-4"><button onclick="setState({route: 'timeline-page'})" class="px-3 py-1 rounded-xl bg-indigo-50 text-[#4F46E5] text-xs font-bold hover:bg-indigo-100 transition-colors">Inspect →</button></td>
+                                        </tr>
+                                        <tr class="hover:bg-slate-50 transition-colors">
+                                            <td class="py-4 font-bold text-[#0F172A]">⚠ Unauthorized Department Access</td>
+                                            <td class="py-4 text-[#4F46E5] font-mono font-bold">NR021</td>
+                                            <td class="py-4 text-amber-600 font-mono font-bold">84%</td>
+                                            <td class="py-4 text-slate-600">Coimbatore Ward B</td>
+                                            <td class="py-4"><button onclick="setState({route: 'timeline-page'})" class="px-3 py-1 rounded-xl bg-indigo-50 text-[#4F46E5] text-xs font-bold hover:bg-indigo-100 transition-colors">Inspect →</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 `;
-            } else if (state.route === 'alerts') {
+            }else if (state.route === 'alerts') {
                 return `
-                    <div class="space-y-6">
-                        <h1 class="text-2xl font-black">Security Alerts & Telemetry</h1>
-                        <div class="bg-white border rounded-3xl p-6 shadow-sm">
-                            <table class="w-full text-left text-sm">
-                                <thead><tr class="border-b text-xs font-semibold text-slate-400 uppercase"><th class="pb-3">SCENARIO</th><th class="pb-3">USER ID</th><th class="pb-3">RISK</th><th class="pb-3">LOCATION</th><th class="pb-3">ACTION</th></tr></thead>
-                                <tbody class="divide-y font-medium">
-                                    <tr><td class="py-4 font-bold">🚨 Bulk Data Export</td><td class="py-4 text-[#4F46E5]">DR001</td><td class="py-4 text-rose-600 font-bold">92</td><td class="py-4">Chennai</td><td class="py-4"><button onclick="setState({route: 'timeline-page'})" class="px-3 py-1 rounded-xl bg-indigo-50 text-[#4F46E5] text-xs font-bold">Inspect →</button></td></tr>
-                                </tbody>
-                            </table>
+                    <div class="space-y-6 animate-fade-in max-w-7xl mx-auto">
+                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                            <div>
+                                <h1 class="text-2xl font-black text-[#0F172A]">Security Alerts & Telemetry</h1>
+                                <p class="text-xs text-slate-500 font-medium mt-0.5">Real-time isolation feed and risk-scoring anomaly matrix for clinical nodes.</p>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <span class="px-3.5 py-1.5 bg-rose-50 border border-rose-100 text-rose-600 text-xs font-bold rounded-xl font-mono">🚨 12 Active Threats</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-white border border-slate-200/85 rounded-3xl p-6 shadow-sm space-y-4">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-slate-100">
+                                <h3 class="text-sm font-bold text-[#0F172A] uppercase tracking-wider font-mono">Incident Matrix Feed</h3>
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left text-sm">
+                                    <thead>
+                                        <tr class="text-xs font-semibold text-slate-400 uppercase font-mono">
+                                            <th class="pb-3">Scenario / Breach Type</th>
+                                            <th class="pb-3">User ID</th>
+                                            <th class="pb-3">Role</th>
+                                            <th class="pb-3">Risk Score</th>
+                                            <th class="pb-3">Location</th>
+                                            <th class="pb-3">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-100 font-medium">
+                                        <tr class="hover:bg-slate-50/80 transition-colors">
+                                            <td class="py-4 font-bold text-[#0F172A]">🚨 Bulk Data Export (400 Records)</td>
+                                            <td class="py-4 text-[#4F46E5] font-bold font-mono">DR001</td>
+                                            <td class="py-4 text-slate-600">Doctor (Cardiology)</td>
+                                            <td class="py-4 text-rose-600 font-bold font-mono">92%</td>
+                                            <td class="py-4 text-slate-600">Chennai Hub</td>
+                                            <td class="py-4"><button onclick="setState({route: 'timeline-page'})" class="px-3 py-1.5 rounded-xl bg-indigo-50 text-[#4F46E5] text-xs font-bold hover:bg-indigo-100 transition-colors">Inspect Timeline →</button></td>
+                                        </tr>
+                                        <tr class="hover:bg-slate-50/80 transition-colors">
+                                            <td class="py-4 font-bold text-[#0F172A]">⚠ Unauthorized Department Access</td>
+                                            <td class="py-4 text-[#4F46E5] font-bold font-mono">NR021</td>
+                                            <td class="py-4 text-slate-600">Nurse (Ward B)</td>
+                                            <td class="py-4 text-amber-600 font-bold font-mono">84%</td>
+                                            <td class="py-4 text-slate-600">Coimbatore Node</td>
+                                            <td class="py-4"><button onclick="setState({route: 'timeline-page'})" class="px-3 py-1.5 rounded-xl bg-indigo-50 text-[#4F46E5] text-xs font-bold hover:bg-indigo-100 transition-colors">Inspect Timeline →</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 `;
@@ -295,7 +423,7 @@
                     <div class="space-y-6">
                         <h1 class="text-2xl font-black">Investigation Timeline: Case #MT-2026-001</h1>
                         <div class="bg-white border rounded-3xl p-8 space-y-4 shadow-sm">
-                            <div class="flex items-start space-x-4 p-4 rounded-2xl bg-slate-50 border"><div class="font-bold text-xs text-slate-600">02:00 AM</div><div><h4 class="text-xs font-bold">User Login Detected</h4><p class="text-xs text-slate-500 font-medium">Successful SSO login from Node-Clinic-884.</p></div></div>
+                            <div class="flex items-start space-x-4 p-4 rounded-2xl bg-slate-50 border"><div class="font-bold text-xs text-slate-600">02:00 AM</div><div><h4 class="text-xs font-bold">User Login Detected</h4><p class="text-xs text-slate-500 font-medium">Successful SSO login from Node-Clinic-884 (Chennai).</p></div></div>
                             <div class="flex items-start space-x-4 p-4 rounded-2xl bg-slate-50 border"><div class="font-bold text-xs text-slate-600">02:15 AM</div><div><h4 class="text-xs font-bold">Bulk Export Initiated</h4><p class="text-xs text-slate-500 font-medium">API Payload Download (142MB) across unassigned patient databases.</p></div></div>
                         </div>
                     </div>
