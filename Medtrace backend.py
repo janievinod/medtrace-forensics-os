@@ -1,12 +1,3 @@
-"""MEDTRACE API - FastAPI backend for the PostgreSQL schema in medtrace_database.sql.
-
-Run after loading that SQL file into PostgreSQL:
-    pip install -r requirements.txt
-    uvicorn main:app --reload
-
-Set DATABASE_URL, for example:
-    postgresql+psycopg://medtrace:password@localhost:5432/medtrace
-"""
 from __future__ import annotations
 
 import os
@@ -199,7 +190,6 @@ def create_log(payload: AccessLogCreate):
     with engine.begin() as conn:
         try:
             row = conn.execute(text(f"INSERT INTO ehr_access_logs ({cols}) VALUES ({binds}) RETURNING *"), fields).mappings().one()
-            # Schema trigger writes the underlying audit_log row automatically.
             return dict(row)
         except IntegrityError as exc:
             raise HTTPException(status_code=409, detail="Referenced user, patient, device, or session does not exist.") from exc
